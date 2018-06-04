@@ -1,0 +1,298 @@
+<!-- <script src = "https://unpkg.com/vue" > </script> -->
+
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link href="css/style.css" rel="stylesheet" />
+    <style>
+    .mui-ellipsis {
+        color: #fff;
+    }
+
+    .mui-control-content h5 {
+        color: #ccc;
+    }
+    </style>
+</head>
+<script type="text/javascript" src="vue.js"></script>
+<script type="text/javascript" src="vue-router.js"></script>
+<script type="text/javascript" src="validate/validform_v5.3.2.js"></script>
+<script type="text/javascript" src="validate/validform_v5.3.2_min.js"></script>
+<script type="text/javascript" src="jquery/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="jquery/jquery-1.7.2.min.js"></script>
+<!--example-08>>begin-->
+</br>
+<div id="exm-8">
+    <p><b>example-08</b></p>
+    <p>动态路由的使用</p>
+    <p>
+        <router-link to="/user/foo">/user/foo</router-link>
+        <router-link to="/user/foo/profile">/user/foo/profile</router-link>
+        <router-link to="/user/foo/posts">/user/foo/posts</router-link>
+    </p>
+    <router-view></router-view>
+    <form class="demoform">
+        <input type="text" value="" name="name" datatype="s5-16" errormsg="昵称至少5个字符,最多16个字符！" /> 
+    </form>
+</div>
+<script type="text/javascript">
+$(".demoform").Validform();
+const User = {
+    template: `
+    <div class="user">
+      <h2>User {{ $route.params.id }}</h2>
+      <router-view></router-view>
+    </div>`
+}
+
+const UserHome = { template: '<div>Home</div>' }
+const UserProfile = { template: '<div>Profile</div>' }
+const UserPosts = { template: '<div>Posts</div>' }
+
+const router = new VueRouter({
+    routes: [{
+        path: '/user/:id',
+        component: User,
+        children: [
+            // UserHome will be rendered inside User's <router-view>
+            // when /user/:id is matched
+            { path: '', component: UserHome },
+
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            { path: 'profile', component: UserProfile },
+
+            // UserPosts will be rendered inside User's <router-view>
+            // when /user/:id/posts is matched
+            { path: 'posts', component: UserPosts }
+        ]
+    }]
+})
+
+const exm_8 = new Vue({ router }).$mount('#exm-8')
+</script>
+<!--example-08>>end-->
+<!--example-07>>begin-->
+</br>
+<div id="exm-7">
+    <p><b>example-07</b></p>
+    <p>v-for 信息打印到控制台了</p>
+    <li>sdfsdfsdf</li>
+    <li v-for="(item , index) in exm_7xxx" v-on:click="sy(item.text, index,item)">
+        {{item.text}}
+    </li>
+</div>
+<script type="text/javascript">
+var exm_7 = new Vue({
+    el: '#exm-7',
+    data: {
+        exm_7xxx: [
+            { id: 0, text: '蔬菜' },
+            { id: 1, text: '奶酪' },
+            { id: 2, text: '随便其他什么人吃的东西' }
+        ]
+    },
+    methods: {
+        sy: function(itemText, index, itemObj) {
+            console.log("heming==>", this.exm_7xxx[index]);
+            console.log("itemText,index,itemObj", itemText, index, itemObj);
+        }
+    }
+});
+</script>
+<!--example-07>>end-->
+<!--example-06>>begin-->
+</br>
+<div id="exm-6">
+    <p><b>example-06</b></p>
+    <p>属性与方法</p>
+    <p>每个 Vue 实例都会代理其 data 对象里所有的属性：</p>
+    <ol>
+        <!-- 创建一个 todo-item 组件的实例 -->
+        <todo-item v-for="item in xxx" v-bind:todo='item' v-bind:key="item.id">
+        </todo-item>
+    </ol>
+    <!-- 使用vue访问代理中的数据 -->
+    <p>{{mybb.heming}}</p>
+    <p>
+        Vue 实例暴露了一些有用的实例属性与方法。这些属性与方法都有前缀 $，以便与代理的 data 属性区分。使用console.log打印出了信息。
+    </p>
+</div>
+<script type="text/javascript">
+Vue.component("todo-item", {
+    props: ["todo"],
+    template: '<li>{{todo.text}}</li>'
+})
+
+/*此处是代理变量的定义*/
+var myData = { heming: "xxxxxxxx" }
+
+var app_exm_6 = new Vue({
+    el: '#exm-6',
+    data: {
+        xxx: [
+            { id: 0, text: '蔬菜' },
+            { id: 1, text: '奶酪' },
+            { id: 2, text: '随便其他什么人吃的东西' }
+        ],
+        mybb: myData /*代理*/
+    }
+});
+/*使用$访问vue实例中暴露出的属性与方法*/
+console.log("app_exm_6.$data === data", app_exm_6.$data)
+// $watch 是一个实例方法
+app_exm_6.$watch('mybb.heming', function(newVal, oldVal) {
+    // 这个回调将在 `vm.a`  改变后调用
+    console.log('修改值时出发了此方法。。。。。。', newVal, oldVal)
+});
+
+myData.heming = "哎哎哎"
+</script>
+<!--example-06>>end-->
+<!--example-05>>begin-->
+</br>
+<div id="exm-5">
+    <p><b>example-05</b></p>
+    <p>组件使用</p>
+    <ol>
+        <!-- 创建一个 todo-item 组件的实例 -->
+        <todo-item v-for="item in xxx" v-bind:todo='item' v-bind:key="item.id">
+        </todo-item>
+    </ol>
+</div>
+<script type="text/javascript">
+Vue.component("todo-item", {
+    props: ["todo"],
+    template: '<li>{{todo.text}}</li>'
+})
+
+var app_exm_4 = new Vue({
+    el: '#exm-5',
+    data: {
+        xxx: [
+            { id: 0, text: '蔬菜' },
+            { id: 1, text: '奶酪' },
+            { id: 2, text: '随便其他什么人吃的东西' }
+        ]
+    }
+});
+</script>
+<!--example-05>>end-->
+<!--example-04>>begin-->
+</br>
+<div id="exm-4">
+    <p><b>example-04</b></p>
+    <p>Vue 组件。</p>
+    <ol>
+        <!-- 创建一个 todo-item 组件的实例 -->
+        <todo-item></todo-item>
+    </ol>
+</div>
+<script type="text/javascript">
+Vue.component("todo-item", {
+    template: '<li>这是个待办项</li>'
+})
+
+var app_exm_4 = new Vue({
+    el: '#exm-4',
+    data: {
+        message: 'Hello Vue!'
+    }
+});
+</script>
+<!--example-04>>end-->
+<!--example-03>>begin-->
+</br>
+<div id="exm-3">
+    <p><b>example-03</b></p>
+    <p>Vue 还提供了 v-model 指令，它能轻松实现表单输入和应用状态之间的双向绑定。</p>
+    <p>{{message}}</p>
+    <input v-model="message">
+</div>
+<script type="text/javascript">
+var app6 = new Vue({
+    el: '#exm-3',
+    data: {
+        message: 'Hello Vue!'
+    }
+});
+</script>
+<!--example-03>>end-->
+<!--example-02>>begin-->
+</br>
+<div>
+    <p><b>example-02</b></p>
+    <div id="exm-2">
+        <p v-if="canshow" v-on:click="noshow">看见我了吗？click me to hide</p>
+    </div>
+</div>
+<script type="text/javascript">
+var app3 = new Vue({
+    el: '#exm-2',
+    data: {
+        canshow: true
+    },
+    methods: {
+        noshow: function() {
+            this.canshow = false
+        },
+        show: function(a1) {
+            console.log("a1-this=", this)
+            console.log("a1-=", a1)
+            console.log("show")
+            a1.textContent = "kkkk"
+            this.canshow = true
+        }
+    }
+});
+//console.log ("app3",app3.noshow);
+</script>
+<!--example-02>>end-->
+<!--example-01>>begin-->
+</br>
+<div>
+    <p><b>example-01</b></p>
+    <div>
+        <input type="mytest" name="mytest" onclick="testMy()" onchange="oops()">
+    </div>
+    <div id="app">
+        <p> {{message}} </p>
+    </div>
+</div>
+<script type="text/javascript">
+var ss = {
+    message: "xxxxxxxxxxxxxxxxxxxxxxxx"
+};
+var vv = new Vue({
+    el: '#app',
+    data: ss
+});
+
+function testMy() {
+    vv.message = "1254541124sdfsdfsdf";
+}
+
+function oops() {
+    vv.message = "HHHHHHHHHHHHHHHHHH"
+}
+vv.message = "ttttttttttttttttttttttttttttttttttt";
+
+
+//使用正则表达式匹配过滤出需要的信息
+function myTess() {
+    var str  = "ChuShengNianYueRi__cd_BirthDate__fd_BIRTHDAY";
+    var sst = str.match(/.*__cd_(.*)__fd_.*/);
+
+    console.log("JSON.stringify(sst)==>",JSON.stringify(sst));
+    //输出的信息是: ["ChuShengNianYueRi__cd_BirthDate__fd_BIRTHDAY","BirthDate"]
+    console.log("sst[1]==>",sst[1]);
+}
+
+myTess();
+
+
+</script>
+<!--example-01>>end-->

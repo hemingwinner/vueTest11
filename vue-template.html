@@ -1,0 +1,58 @@
+<head>
+    <meta charset="utf-8">
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <script type="text/javascript" src="vue.js"></script>
+    <style>
+    .mui-ellipsis {
+        color: #fff;
+    }
+
+    .mui-control-content h5 {
+        color: #ccc;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- 全局组件 -->
+    <div id="goladComponent">
+        <my-component></my-component>
+    </div>
+
+    <!-- 局部组件 -->
+    <div id="childComponent">
+        <!-- 注意使用的子组件命名不能包含有字符串: Component  -->
+        <heming-child-component></heming-child-component>
+    </div>
+
+    <script type="text/javascript">
+    /*全局组件注册--begin*/
+    Vue.component('my-component', {
+        template: '<div>A custom component!</div>'
+    });
+
+    new Vue({
+        el: '#goladComponent'
+    });
+    /*全局组件注册--end*/
+
+    /*局部组件-begin*/
+    new Vue({
+        el:'#childComponent',
+        data:{
+            myTT : 990,
+            ccs : []
+        },
+        components:{
+            'heming-child-component':{
+                template: '<div>{{myMessage}}</div>',
+                props:{'myMessage':"sdfsdfsdfsd"}
+            }
+        }
+    });
+    /*局部组件-end*/
+    </script>
+</body>
